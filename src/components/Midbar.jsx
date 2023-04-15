@@ -7,7 +7,7 @@ const Midbar = () => {
 
   return (
     <>
-      <div className="flex justify-between items-center font-Urbanist my-7">
+      <div className="flex flex-col md:flex-row md:justify-between  md:items-center font-Urbanist my-7">
         <div>
           <p className="text-lg font-semibold">
             Earning Rate: <span className="text-orange">3%</span>{" "}
@@ -54,11 +54,11 @@ const Midbar = () => {
           </div>
           )}
         </div>
-        <div className="flex h-1/3 items-center">
-            <button className="bg-grey flex items-center mx-3 rounded-2xl px-7 py-2">
+        <div className="flex h-1/3 justify-between items-center">
+            <button className="bg-grey flex items-center md:mx-3 rounded-2xl px-7 py-2" disabled>
               <AiFillPlusCircle className="mr-1"/>  Supply
             </button>
-            <button className="bg-grey flex items-center mx-3 rounded-2xl px-7 py-2">
+            <button className="bg-grey flex items-center md:mx-3 rounded-2xl px-7 py-2" disabled>
               <AiFillPlusCircle className="mr-1"/> Borrow
             </button>
         </div>
