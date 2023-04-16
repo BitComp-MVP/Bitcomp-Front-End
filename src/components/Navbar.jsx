@@ -9,16 +9,16 @@ import { SiMarketo, SiBitcoinsv } from "react-icons/si";
 import { NavLink } from "react-router-dom";
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
-  const isConnected = Boolean(accounts[0])
+  // const isConnected = Boolean(accounts[0])
 
-    async function connectAccount() {
-        if (window.ethereum) {
-            const accounts = await window.ethereum.request({
-                method: "eth_requestAccounts",
-            })
-            setAccounts(accounts)
-        }
-    }
+  //   async function connectAccount() {
+  //       if (window.ethereum) {
+  //           const accounts = await window.ethereum.request({
+  //               method: "eth_requestAccounts",
+  //           })
+  //           setAccounts(accounts)
+  //       }
+  //   }
   return (
     <>
       <Card>
