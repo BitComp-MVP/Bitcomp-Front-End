@@ -17,6 +17,7 @@ export default {
       'orange': '#f96d00',
       'orange-2': '#c24d2c',
       'orange-3': '#ff5722',
+      'transparent': 'transparent'
 
      
 

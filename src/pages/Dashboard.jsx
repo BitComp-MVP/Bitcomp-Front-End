@@ -1,13 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import Midbar from "../components/Midbar";
 import Card from "../components/Card";
 import { SiBitcoinsv } from "react-icons/si";
 import { AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai";
 const Dashboard = () => {
+  const[supplyAmount, setSupplyAmount] = useState('');
+ const[borrowAmount, setBorrowAmount] = useState('');
+  const handleSupplyValue = (supplied) => {
+    setSupplyAmount(supplied);
+  };
+
+  const handleBorrowValue = (borrowed) => {
+    setBorrowAmount(borrowed);
+  };
   return (
     <>
       <Card>
-        <Midbar />
+        <Midbar onChange={handleSupplyValue} onChanged={handleBorrowValue} />
         <div className="bg-grey flex justify-between px-[7%] rounded-lg py-10 font-Urbanist">
           <div className="w-1/2">
             <h4 className="text-gray4 font-bold md:text-lg py-1">
@@ -27,7 +36,7 @@ const Dashboard = () => {
             </h4>
             <div className="flex items-center">
               <p className="font-Urbanist text-base md:text-2xl font-bold text-opacity-30 text-gray3 md:mx-5">
-                0.0000
+                {supplyAmount - borrowAmount}
               </p>
               <AiFillPlusCircle className=" text-gray2 text-opacity-50 hover:text-orange hover:text-opacity-60 md:w-10 h-full mx-2" />
               <AiFillMinusCircle className=" text-gray2 text-opacity-50 hover:text-orange hover:text-opacity-60 md:w-10 h-full ml-2" />
