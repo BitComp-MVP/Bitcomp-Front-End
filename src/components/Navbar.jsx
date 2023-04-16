@@ -9,12 +9,22 @@ import { SiMarketo, SiBitcoinsv } from "react-icons/si";
 import { NavLink } from "react-router-dom";
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
+  const isConnected = Boolean(accounts[0])
+
+    async function connectAccount() {
+        if (window.ethereum) {
+            const accounts = await window.ethereum.request({
+                method: "eth_requestAccounts",
+            })
+            setAccounts(accounts)
+        }
+    }
   return (
     <>
       <Card>
         <div className="text-white flex justify-between items-center ">
           <h5 className="flex font-Urbanist text-lg tracking-wide font-extrabold md:text-3xl">
-            Bit <span className="text-orange md:-ml-2">Comp</span>
+            Bit <span className="text-orange ">Comp</span>
           </h5>
           <div className="mt-2 font-Urbanist text-lg font-semibold ">
             <ul className="md:flex hidden ">
@@ -65,7 +75,7 @@ const Navbar = () => {
             </button>
             {toggle? (
               <Card>
-                <div className="mt-2 font-Urbanist text-lg font-semibold justify-center items-center bg-grey bg-opacity-90 flex overflow-x-hidden overflow-y-auto fixed inset-0 z-0">
+                <div className="mt-2 font-Urbanist text-lg font-semibold justify-center items-center bg-grey bg-opacity-90 flex overflow-x-hidden overflow-y-auto fixed transition-all  ease ease-in duration-3000 inset-0 z-0">
               <button className="absolute top-1 right-1 w-20 " onClick={() => setToggle((prev) => !prev)}>
                 <AiOutlineClose className="w-10 h-full"/>
               </button>
