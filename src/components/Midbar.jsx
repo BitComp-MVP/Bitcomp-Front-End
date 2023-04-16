@@ -1,9 +1,20 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SiBitcoinsv } from "react-icons/si";
 import { AiFillPlusCircle } from 'react-icons/ai'
+
 const Midbar = () => {
   const [toggle, setToggle] = useState(false);
+  const [value, setValue] = useState(0);
+  const specifiedValue = 1000 ; // example specified value
+
+  useEffect(() => {
+    const incrementValue = setInterval(() => {
+      setValue((prevValue) => prevValue + specifiedValue / 31536000);
+    }, 1000); // increment every second
+
+    return () => clearInterval(incrementValue);
+  }, [specifiedValue]);
 
   return (
     <>
@@ -31,7 +42,7 @@ const Midbar = () => {
              <span className="mr-2 t">
                <SiBitcoinsv />
              </span>
-             0.0000
+             {value}
            </button>
          </div>
           ) : (
@@ -43,7 +54,7 @@ const Midbar = () => {
               <span className="mr-2 t">
                 <SiBitcoinsv />
               </span>
-              0.0000
+              {value}
             </button>
             <button
               className="flex items-center text-sm text-white "
