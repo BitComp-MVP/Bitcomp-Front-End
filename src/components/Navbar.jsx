@@ -9,74 +9,28 @@ import { NavLink } from "react-router-dom";
 import { AppConfig, UserSession, showConnect } from "@stacks/connect";
 import { StacksTestnet, StacksMainnet } from "@stacks/network";
 import { useState, useEffect } from "react";
+import { getAddress, signTransaction } from 'sats-connect'
 import Client from "@walletconnect/sign-client";
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
-  const [client, setClient] = useState(undefined);
-  const [chain, setChain] = useState(undefined);
-  const [session, setSession] = useState(undefined);
-  const [isWalletConnected, setIsWalletConnected] = useState(false);
-
-  
-
-  useEffect(() => {
-    const f = async () => {
-      const c = await Client.init({
-        logger: "debug",
-        relayUrl: "wss://relay.walletconnect.com",
-        projectId: "03b16cac090931be3c6c2d4d11287b05", // register at WalletConnect and create one for yourself - https://cloud.walletconnect.com/
-        // you need to have a valid ID or the app will not start
-        metadata: {
-          name: "BitComp",
-          description: "Bitcoin borrowing and lending app",
-          url: "https://bitcomp.netlify.app/",
-          icons: ["https://avatars.githubusercontent.com/u/37784886"],
-        },
-      });
-
-      setClient(c);
-    };
-
-    if (client === undefined) {
-      f();
+  const getAddressOptions = {
+    payload: {
+      purposes: ['ordinals', 'payment'],
+      message: 'Address for receiving Ordinals and payments',
+      network: {
+        type:'Mainnet'
+      },
+    },
+    onFinish: (response) => {
+      console.log(response)
+    },
+    onCancel: () => alert('Request canceled'),
     }
-  }, [client]);
+      
+   getAddress(getAddressOptions);
 
-  const chains = ["stacks:1", "stacks:2147483648"];
+   
 
-  const handleConnect = async (chain) => {
-    setChain(undefined);
-
-    const { uri, approval } = await client.connect({
-        pairingTopic: undefined,
-        requiredNamespaces: {
-            "stacks":{
-            "methods":[
-                'stacks_signMessage',
-                'stacks_stxTransfer',
-                'stacks_contractCall',
-                'stacks_contractDeploy',
-            ],
-            "chains":[
-                chain
-            ],
-            "events":[]
-            }
-        },
-    });
-
-    if (uri) {
-    QRCodeModal.open(uri, () => {
-        console.log("QR Code Modal closed");
-    });
-    }
-
-    const session = await approval();
-    setSession(session);
-    setChain(chain);
-
-    QRCodeModal.close();
-};
   return (
     <>
       <Card>
@@ -116,15 +70,15 @@ const Navbar = () => {
               </p>
               <p className="text-lg text-gray3 mx-1">Bitcoin</p>
             </div>
-          {
-            !session && (
-            <div>
-                {chains.map((c, idx) => {
-                    return (<div className="mx-3 hidden md:flex" key={`chain-${idx}`}>{c}  <button className="bg-grey font-bold tracking-wide rounded-2xl border border-orange p-3" disabled={!client} onClick={async () => await handleConnect(c)}>Connect Wallet</button></div>);
-                })}
+            <div className="mx-3 hidden md:flex" >
+              
+              <button
+                className="bg-grey font-bold tracking-wide rounded-2xl border border-orange p-3"
+                
+              >
+                Connect Wallet
+              </button>
             </div>
-            )
-        }
           </div>
           <div className="font-bold text-xl text-gray3 flex md:hidden mt-1 items-center">
             <button className="px-1">
