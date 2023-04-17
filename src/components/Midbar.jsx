@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 import { SiBitcoinsv } from "react-icons/si";
 import { AiFillPlusCircle, AiOutlineClose } from 'react-icons/ai'
 
-const Midbar = (props, propsb) => {
+const Midbar = (props) => {
   const [supply, setSupply] = useState(false);
   const [borrow, setBorrow] = useState(false);
   const [value, setValue] = useState(0);
@@ -43,9 +43,9 @@ const Midbar = (props, propsb) => {
   }, [supplyAmount, props]);
 
   const handleClickBorrow = useCallback(() => {
-    propsb.onChanged(borrowAmount);
+    props.onChanged(borrowAmount);
     
-  }, [borrowAmount, propsb]);
+  }, [borrowAmount, props]);
 
 
     const borrowLimitHigh = 0.7 * supplyAmount;

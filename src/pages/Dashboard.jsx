@@ -3,7 +3,7 @@ import Midbar from "../components/Midbar";
 import Card from "../components/Card";
 import { SiBitcoinsv } from "react-icons/si";
 import { AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai";
-const Dashboard = () => {
+const Dashboard = (props) => {
   const[supplyAmount, setSupplyAmount] = useState('');
  const[borrowAmount, setBorrowAmount] = useState('');
   const handleSupplyValue = (supplied) => {
@@ -49,7 +49,7 @@ const Dashboard = () => {
               <h4 className="text-gray4  font-bold text-lg ">
                 BTC Wallet Balance
               </h4>
-              <h4 className="text-gray4 font-bold text-lg ">0.0000</h4>
+              <h4 className="text-gray4 font-bold text-lg ">{props.balance}</h4>
             </div>
             <div className="mt-4">
               <div className="flex justify-between text-gray3 font-semibold text-opacity-70 mb-3">

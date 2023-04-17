@@ -6,16 +6,15 @@ import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { FaWallet } from "react-icons/fa";
 import { SiMarketo, SiBitcoinsv } from "react-icons/si";
 import { NavLink } from "react-router-dom";
-import { AppConfig, UserSession, showConnect } from "@stacks/connect";
-import { StacksTestnet, StacksMainnet } from "@stacks/network";
 import { useState, useEffect } from "react";
 import { getAddress, signTransaction } from "sats-connect";
-import Client from "@walletconnect/sign-client";
+import axios from "axios";
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
   const [connected, setConnected] = useState(false);
+  const [walletAddress, setWalletAddress] = useState(null);
 
-  async function handleConnectClick() {
+  async function handleConnectClick(props) {
     const getAddressOptions = {
       payload: {
         purposes: ['ordinals', 'payment'],
@@ -32,7 +31,17 @@ const Navbar = () => {
     };
 
     await getAddress(getAddressOptions);
+    const address = await getAddress(getAddressOptions);
+    const response = await axios.get(`https://blockstream.info/api/address/${address}/`);
+    const balance = response.data.chain_stats.funded_txo_sum - response.data.chain_stats.spent_txo_sum;
+console.log(`Wallet balance: ${balance}`);
+
+setWalletBalance(balance);
+    props.updateWalletBalance(balance);
+    setWalletAddress(address);
   }
+
+
   return (
     <>
       <Card>
