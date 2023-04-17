@@ -9,28 +9,30 @@ import { NavLink } from "react-router-dom";
 import { AppConfig, UserSession, showConnect } from "@stacks/connect";
 import { StacksTestnet, StacksMainnet } from "@stacks/network";
 import { useState, useEffect } from "react";
-import { getAddress, signTransaction } from 'sats-connect'
+import { getAddress, signTransaction } from "sats-connect";
 import Client from "@walletconnect/sign-client";
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
-  const getAddressOptions = {
-    payload: {
-      purposes: ['ordinals', 'payment'],
-      message: 'Address for receiving Ordinals and payments',
-      network: {
-        type:'Mainnet'
+  const [connected, setConnected] = useState(false);
+
+  async function handleConnectClick() {
+    const getAddressOptions = {
+      payload: {
+        purposes: ['ordinals', 'payment'],
+        message: 'Address for receiving Ordinals and payments',
+        network: {
+          type: 'Mainnet'
+        },
       },
-    },
-    onFinish: (response) => {
-      console.log(response)
-    },
-    onCancel: () => alert('Request canceled'),
-    }
-      
-   getAddress(getAddressOptions);
+      onFinish: (response) => {
+        console.log(response);
+        setConnected(true); // update state when connection is successful
+      },
+      onCancel: () => alert('Request canceled'),
+    };
 
-   
-
+    await getAddress(getAddressOptions);
+  }
   return (
     <>
       <Card>
@@ -70,13 +72,10 @@ const Navbar = () => {
               </p>
               <p className="text-lg text-gray3 mx-1">Bitcoin</p>
             </div>
-            <div className="mx-3 hidden md:flex" >
-              
-              <button
-                className="bg-grey font-bold tracking-wide rounded-2xl border border-orange p-3"
-                
-              >
-                Connect Wallet
+            <div className="mx-3 hidden md:flex">
+              <button className="bg-grey font-bold tracking-wide rounded-2xl border border-orange p-3" onClick={handleConnectClick}>
+              {connected ? 'Connected' : 'Connect Wallet'}
+
               </button>
             </div>
           </div>
